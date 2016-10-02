@@ -1,21 +1,6 @@
-// Copyright © 2016 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -49,25 +34,27 @@ func checkTeamID(room *ciscospark.Room) bool {
 // roomsCmd represents the rooms command
 var roomsCmd = &cobra.Command{
 	Use:   "rooms",
-	Short: "rooms API",
-	Long:  `rooms API commands.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(cmd.Help())
-	},
+	Short: "Rooms are virtual meeting places where people post messages and collaborate to get work done.",
+	Long:  `Rooms are virtual meeting places where people post messages and collaborate to get work done. This API is used to manage the rooms themselves. Rooms are create and deleted with this API. You can also update a room to change its title, for example..`,
 }
 
 // roomsListCmd represents the rooms GET command
 var roomsListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "Lists rooms",
-	Long:  `Lists the rooms from Cisco Spark.`,
+	Short: "List rooms",
+	Long: `List rooms.
+
+By default, lists rooms to which the authenticated user belongs.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		roomsQueryParams := &ciscospark.RoomQueryParams{
 			Max:  Max,
 			Type: roomType,
 		}
 
-		rooms, _, err := SparkClient.Rooms.Get(roomsQueryParams)
+		rooms, response, err := SparkClient.Rooms.Get(roomsQueryParams)
+		if verbose {
+			PrintRequestWithoutBody(response.Request)
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -81,96 +68,102 @@ var roomsListCmd = &cobra.Command{
 			myRooms = rooms
 		}
 
-		roomsJSON, err := json.MarshalIndent(myRooms, "", "  ")
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(string(roomsJSON))
+		PrintJSON(myRooms)
+
 	},
 }
 
 // roomsCreateCmd represents the rooms POST command
 var roomsCreateCmd = &cobra.Command{
 	Use:   "create",
-	Short: "Creates a room",
-	Long:  `Creates a room given the name as parameter`,
+	Short: "Create a room",
+	Long:  `Creates a room. The authenticated user is automatically added as a member of the room.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		roomRequest := &ciscospark.RoomRequest{
 			Title: roomName,
 		}
 
-		newRoom, _, err := SparkClient.Rooms.Post(roomRequest)
+		newRoom, response, err := SparkClient.Rooms.Post(roomRequest)
+		if verbose {
+			PrintRequestWithBody(response.Request, roomRequest)
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		roomJSON, err := json.MarshalIndent(newRoom, "", "  ")
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(string(roomJSON))
+		PrintJSON(newRoom)
+
 	},
 }
 
 // roomsGetCmd represents the rooms GET/<id> command
 var roomsGetCmd = &cobra.Command{
 	Use:   "get",
-	Short: "Gets a room",
-	Long:  `Gets a room given the id as parameter`,
+	Short: "Get room details",
+	Long: `Shows details for a room, by ID.
+
+Specify the room ID with the -i/--id flag.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		room, _, err := SparkClient.Rooms.GetRoom(roomID)
+		room, response, err := SparkClient.Rooms.GetRoom(roomID)
+		if verbose {
+			PrintRequestWithoutBody(response.Request)
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		roomJSON, err := json.MarshalIndent(room, "", "  ")
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(string(roomJSON))
+		PrintJSON(room)
+
 	},
 }
 
 // roomsUpdateCmd represents the rooms PUT command
 var roomsUpdateCmd = &cobra.Command{
 	Use:   "update",
-	Short: "Updates a room",
-	Long:  `Updates a room given the name and ID as parameters`,
+	Short: "Update a room",
+	Long: `Updates details for a room, by ID.
+
+Specify the room ID with the -i/--id flag.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		updateRoomRequest := &ciscospark.UpdateRoomRequest{
 			Title: roomName,
 		}
 
-		updatedRoom, _, err := SparkClient.Rooms.UpdateRoom(roomID, updateRoomRequest)
+		updatedRoom, response, err := SparkClient.Rooms.UpdateRoom(roomID, updateRoomRequest)
+		if verbose {
+			PrintRequestWithBody(response.Request, updateRoomRequest)
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		updatedRoomJSON, err := json.MarshalIndent(updatedRoom, "", "  ")
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(string(updatedRoomJSON))
+		PrintJSON(updatedRoom)
+
 	},
 }
 
 // roomsCreateCmd represents the rooms DELETE command
 var roomsDeleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "Deletes a room",
-	Long:  `Deletes a room given the id as parameter`,
+	Short: "Delete a room",
+	Long: `Deletes a room, by ID.
+
+Specify the room ID with the -i/--id flag`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if roomID == "" {
 			fmt.Println(cmd.Help())
 		} else {
-			resp, err := SparkClient.Rooms.DeleteRoom(roomID)
+			response, err := SparkClient.Rooms.DeleteRoom(roomID)
+			if verbose {
+				PrintRequestWithoutBody(response.Request)
+			}
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			fmt.Println(resp.StatusCode)
+			fmt.Println(response.StatusCode)
 		}
 	},
 }
@@ -183,13 +176,17 @@ func init() {
 	roomsCmd.AddCommand(roomsDeleteCmd)
 	roomsCmd.AddCommand(roomsGetCmd)
 
-	roomsListCmd.Flags().StringVarP(&roomType, "roomType", "r", "", "Filter by room type")
+	roomsListCmd.Flags().StringVarP(&roomType, "roomType", "r", "", "Available values: direct and group. direct returns all 1-to-1 rooms. group returns all group rooms. If not specified or values not matched, will return all room types.")
 	roomsListCmd.Flags().StringVarP(&roomName, "roomName", "n", "", "Filter by room name")
-	roomsListCmd.Flags().StringVarP(&roomTeamID, "roomTeamID", "t", "", "Filter by team ID")
-	roomsCreateCmd.Flags().StringVarP(&roomName, "roomName", "n", "", "Filter by room name")
-	roomsUpdateCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "Room ID")
-	roomsGetCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "Room ID")
+	roomsListCmd.Flags().StringVarP(&roomTeamID, "roomTeamID", "t", "", "Limit the rooms to those associatedwith a team, by ID.")
+
+	roomsCreateCmd.Flags().StringVarP(&roomName, "roomName", "n", "", "The Room ID")
+
+	roomsUpdateCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "The Room ID")
 	roomsUpdateCmd.Flags().StringVarP(&roomName, "roomName", "n", "", "Filter by room name")
-	roomsDeleteCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "Room ID")
+
+	roomsGetCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "The Room ID")
+
+	roomsDeleteCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "The Room ID")
 
 }

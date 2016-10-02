@@ -12,6 +12,7 @@ import (
 )
 
 var cfgFile string
+var verbose bool
 
 // SparkClient is Cisco Spark Client
 var SparkClient *ciscospark.Client
@@ -24,9 +25,6 @@ var RootCmd = &cobra.Command{
 	Use:   "go-spark",
 	Short: "Displays the help",
 	Long:  `Displays the go-spark help`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(cmd.Help())
-	},
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		tr := &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -60,9 +58,8 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.go-spark.yaml)")
-	RootCmd.PersistentFlags().IntVarP(&Max, "max", "m", 10, "Max results to return")
-
-	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	RootCmd.PersistentFlags().IntVarP(&Max, "max", "m", 10, "limit the maximum number of items in the response.")
+	RootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
 }
 
 // initConfig reads in config file and ENV variables if set.
