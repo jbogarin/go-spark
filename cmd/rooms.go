@@ -44,7 +44,9 @@ var roomsListCmd = &cobra.Command{
 	Short: "List rooms",
 	Long: `List rooms.
 
-By default, lists rooms to which the authenticated user belongs.`,
+By default, lists rooms to which the authenticated user belongs.
+
+Use -r/--room-type to define the room type`,
 	Run: func(cmd *cobra.Command, args []string) {
 		roomsQueryParams := &ciscospark.RoomQueryParams{
 			Max:  Max,
@@ -69,7 +71,6 @@ By default, lists rooms to which the authenticated user belongs.`,
 		}
 
 		PrintJSON(myRooms)
-
 	},
 }
 
@@ -81,6 +82,10 @@ var roomsCreateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		roomRequest := &ciscospark.RoomRequest{
 			Title: roomName,
+		}
+
+		if roomTeamID != "" {
+			roomRequest.TeamID = roomTeamID
 		}
 
 		newRoom, response, err := SparkClient.Rooms.Post(roomRequest)
@@ -176,17 +181,17 @@ func init() {
 	roomsCmd.AddCommand(roomsDeleteCmd)
 	roomsCmd.AddCommand(roomsGetCmd)
 
-	roomsListCmd.Flags().StringVarP(&roomType, "roomType", "r", "", "Available values: direct and group. direct returns all 1-to-1 rooms. group returns all group rooms. If not specified or values not matched, will return all room types.")
-	roomsListCmd.Flags().StringVarP(&roomName, "roomName", "n", "", "Filter by room name")
-	roomsListCmd.Flags().StringVarP(&roomTeamID, "roomTeamID", "t", "", "Limit the rooms to those associatedwith a team, by ID.")
+	roomsListCmd.Flags().StringVarP(&roomType, "type", "r", "", "Available values: direct and group. direct returns all 1-to-1 rooms. group returns all group rooms. If not specified or values not matched, will return all room types.")
+	roomsListCmd.Flags().StringVarP(&roomName, "name", "n", "", "Filter by room name")
+	roomsListCmd.Flags().StringVarP(&roomTeamID, "team", "T", "", "Limit the rooms to those associatedwith a team, by ID.")
 
-	roomsCreateCmd.Flags().StringVarP(&roomName, "roomName", "n", "", "The Room ID")
+	roomsCreateCmd.Flags().StringVarP(&roomName, "name", "n", "", "A user-friendly name for the room.")
+	roomsCreateCmd.Flags().StringVarP(&roomTeamID, "team", "T", "", "The ID for the team with which this room is associated.")
 
-	roomsUpdateCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "The Room ID")
-	roomsUpdateCmd.Flags().StringVarP(&roomName, "roomName", "n", "", "Filter by room name")
+	roomsUpdateCmd.Flags().StringVarP(&roomID, "id", "i", "", "The Room ID")
 
-	roomsGetCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "The Room ID")
+	roomsGetCmd.Flags().StringVarP(&roomID, "id", "i", "", "The Room ID")
 
-	roomsDeleteCmd.Flags().StringVarP(&roomID, "roomID", "i", "", "The Room ID")
+	roomsDeleteCmd.Flags().StringVarP(&roomID, "id", "i", "", "The Room ID")
 
 }

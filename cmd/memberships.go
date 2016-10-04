@@ -59,8 +59,8 @@ Use either -p/--person-id or -e/--person-email to filter the results.`,
 	},
 }
 
-// membershipsAddCmd represents the memberships POST command
-var membershipsAddCmd = &cobra.Command{
+// membershipsCreateCmd represents the memberships POST command
+var membershipsCreateCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add someone to a room by Person ID or email address; optionally making them a moderator.",
 	Long: `Add someone to a room by Person ID or email address; optionally making them a moderator.
@@ -175,7 +175,7 @@ Specify the membership ID with the -i/--id flag.`,
 func init() {
 	RootCmd.AddCommand(membershipsCmd)
 	membershipsCmd.AddCommand(membershipsListCmd)
-	membershipsCmd.AddCommand(membershipsAddCmd)
+	membershipsCmd.AddCommand(membershipsCreateCmd)
 	membershipsCmd.AddCommand(membershipsGetCmd)
 	membershipsCmd.AddCommand(membershipsUpdateCmd)
 	membershipsCmd.AddCommand(membershipsDeleteCmd)
@@ -184,10 +184,10 @@ func init() {
 	membershipsListCmd.Flags().StringVarP(&membershipPersonID, "person-id", "p", "", "Limit results to a specific person, by ID.")
 	membershipsListCmd.Flags().StringVarP(&membershipPersonEmail, "person-email", "e", "", "Limit results to a specific person, by email address.")
 
-	membershipsAddCmd.Flags().StringVarP(&membershipRoomID, "room", "r", "", "The room ID.")
-	membershipsAddCmd.Flags().StringVarP(&membershipPersonID, "person-id", "p", "", "The person ID.")
-	membershipsAddCmd.Flags().StringVarP(&membershipPersonEmail, "person-email", "e", "", "The email address of the person.")
-	membershipsAddCmd.Flags().BoolVarP(&membershipModerator, "moderator", "M", false, "Set to true to make the person a room moderator")
+	membershipsCreateCmd.Flags().StringVarP(&membershipRoomID, "room", "r", "", "The room ID.")
+	membershipsCreateCmd.Flags().StringVarP(&membershipPersonID, "person-id", "p", "", "The person ID.")
+	membershipsCreateCmd.Flags().StringVarP(&membershipPersonEmail, "person-email", "e", "", "The email address of the person.")
+	membershipsCreateCmd.Flags().BoolVarP(&membershipModerator, "moderator", "M", false, "Set to true to make the person a room moderator")
 
 	membershipsGetCmd.Flags().StringVarP(&membershipID, "id", "i", "", "The membership ID.")
 
