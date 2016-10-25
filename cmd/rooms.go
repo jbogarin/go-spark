@@ -49,8 +49,9 @@ By default, lists rooms to which the authenticated user belongs.
 Use -r/--room-type to define the room type`,
 	Run: func(cmd *cobra.Command, args []string) {
 		roomsQueryParams := &ciscospark.RoomQueryParams{
-			Max:  Max,
-			Type: roomType,
+			Max:    Max,
+			Type:   roomType,
+			TeamID: roomTeamID,
 		}
 
 		rooms, response, err := SparkClient.Rooms.Get(roomsQueryParams)
