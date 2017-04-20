@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var roomID, htmlMessage, markDownMessage, textMessage, messageID string
+var roomID, markDownMessage, textMessage, messageID string
 var messagesBefore, messagesBeforeMessage, messagesMentionedPeople string
 
 // messagesCmd represents the messages command
@@ -67,9 +67,7 @@ var messagesSendCmd = &cobra.Command{
 			RoomID: roomID,
 		}
 
-		if htmlMessage != "" {
-			message.HTML = htmlMessage
-		} else if markDownMessage != "" {
+		if markDownMessage != "" {
 			message.MarkDown = markDownMessage
 		} else if textMessage != "" {
 			message.Text = textMessage
@@ -144,7 +142,6 @@ func init() {
 	messagesListCmd.Flags().StringVarP(&messagesMentionedPeople, "mentioned-people", "M", "", "List messages for a person, by personId or me.")
 
 	messagesSendCmd.Flags().StringVarP(&roomID, "roomID", "r", "", "The room ID.")
-	messagesSendCmd.Flags().StringVarP(&htmlMessage, "html", "H", "", "The message, in HTML format.")
 	messagesSendCmd.Flags().StringVarP(&markDownMessage, "markdown", "M", "", "The message, in markdown format.")
 	messagesSendCmd.Flags().StringVarP(&textMessage, "text", "T", "", "The message, in plain text.")
 
