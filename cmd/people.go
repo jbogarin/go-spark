@@ -29,7 +29,7 @@ var peopleMeCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		PrintJSON(me)
+		PrintResponseFormat(me)
 	},
 }
 
@@ -59,7 +59,7 @@ var peopleListCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		PrintJSON(people)
+		PrintResponseFormat(people)
 	},
 }
 
@@ -79,7 +79,7 @@ Specify the person ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(person)
+		PrintResponseFormat(person)
 	},
 }
 

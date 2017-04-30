@@ -41,7 +41,7 @@ Use teamId with -i/--id flag to list memberships for a team.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(teamMemberships)
+		PrintResponseFormat(teamMemberships)
 
 	},
 }
@@ -67,7 +67,7 @@ var teamMembershipsCreateCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		PrintJSON(newTeamMembership)
+		PrintResponseFormat(newTeamMembership)
 	},
 }
 
@@ -88,7 +88,7 @@ Specify the membership ID using the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(teamMembership)
+		PrintResponseFormat(teamMembership)
 	},
 }
 
@@ -112,7 +112,7 @@ Specify the membership ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(updatedTeamMembership)
+		PrintResponseFormat(updatedTeamMembership)
 
 	},
 }

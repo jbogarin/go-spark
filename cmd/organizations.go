@@ -34,7 +34,7 @@ var organizationsListCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		PrintJSON(organizations)
+		PrintResponseFormat(organizations)
 	},
 }
 
@@ -54,7 +54,7 @@ Specify the organization ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(organization)
+		PrintResponseFormat(organization)
 	},
 }
 

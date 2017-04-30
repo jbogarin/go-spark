@@ -34,7 +34,7 @@ var rolesListCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		PrintJSON(roles)
+		PrintResponseFormat(roles)
 	},
 }
 
@@ -54,7 +54,7 @@ Specify the role ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(role)
+		PrintResponseFormat(role)
 	},
 }
 

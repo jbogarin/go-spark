@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/gocarina/gocsv"
 )
 
 // PrintRequestWithoutBody prints the request without the Body, mainly for GET requests
@@ -43,4 +45,25 @@ func PrintJSON(response interface{}) {
 	}
 	fmt.Println(string(responseJSON))
 
+}
+
+// PrintCSV prints the response in CSV to stdout
+func PrintCSV(response interface{}) {
+	csvContent, err := gocsv.MarshalString(response) // Get all clients as CSV string
+	if err != nil {
+		panic(err)
+	}
+	fmt.Print(csvContent) // Display all clients as CSV string
+
+}
+
+// PrintResponseFormat prints the response depending on the format flag
+func PrintResponseFormat(response interface{}) {
+	if format == "json" {
+		PrintJSON(response)
+	} else if format == "csv" {
+		PrintCSV(response)
+	} else {
+		PrintJSON(response)
+	}
 }

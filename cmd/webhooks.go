@@ -47,7 +47,7 @@ Use -r/--webhook-type to define the webhook type`,
 		// 	myWebhooks = webhooks
 		// }
 
-		PrintJSON(webhooks)
+		PrintResponseFormat(webhooks)
 	},
 }
 
@@ -73,7 +73,7 @@ Use -r/--webhook-type to define the webhook type`,
 // 			log.Fatal(err)
 // 		}
 
-// 		PrintJSON(newWebhook)
+// 		PrintResponseFormat(newWebhook)
 
 // 	},
 // }
@@ -94,7 +94,7 @@ Use -r/--webhook-type to define the webhook type`,
 // 			log.Fatal(err)
 // 		}
 
-// 		PrintJSON(webhook)
+// 		PrintResponseFormat(webhook)
 
 // 	},
 // }
@@ -120,7 +120,7 @@ Use -r/--webhook-type to define the webhook type`,
 // 			log.Fatal(err)
 // 		}
 
-// 		PrintJSON(updatedWebhook)
+// 		PrintResponseFormat(updatedWebhook)
 
 // 	},
 // }

@@ -52,7 +52,7 @@ The list sorts the messages in descending order by creation date.`,
 		if err != nil {
 			log.Fatal(err)
 		}
-		PrintJSON(messages)
+		PrintResponseFormat(messages)
 	},
 }
 
@@ -82,7 +82,7 @@ var messagesSendCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		PrintJSON(newMessage)
+		PrintResponseFormat(newMessage)
 	},
 }
 
@@ -103,7 +103,7 @@ Specify the message ID in the messageId parameter in the URI.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(message)
+		PrintResponseFormat(message)
 
 	},
 }

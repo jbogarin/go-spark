@@ -71,7 +71,8 @@ Use -r/--room-type to define the room type`,
 			myRooms = rooms
 		}
 
-		PrintJSON(myRooms)
+		PrintResponseFormat(myRooms)
+
 	},
 }
 
@@ -97,7 +98,7 @@ var roomsCreateCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		PrintJSON(newRoom)
+		PrintResponseFormat(newRoom)
 
 	},
 }
@@ -118,7 +119,13 @@ Specify the room ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(room)
+		if format == "csv" {
+			var myRooms []*ciscospark.Room
+			myRooms = append(myRooms, room)
+			PrintResponseFormat(myRooms)
+		} else {
+			PrintResponseFormat(room)
+		}
 
 	},
 }
@@ -144,7 +151,7 @@ Specify the room ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(updatedRoom)
+		PrintResponseFormat(updatedRoom)
 
 	},
 }

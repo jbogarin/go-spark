@@ -35,7 +35,7 @@ var licensesListCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		PrintJSON(licenses)
+		PrintResponseFormat(licenses)
 	},
 }
 
@@ -55,7 +55,7 @@ Specify the license ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(license)
+		PrintResponseFormat(license)
 	},
 }
 

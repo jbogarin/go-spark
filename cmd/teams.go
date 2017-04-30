@@ -59,7 +59,7 @@ var teamsListCmd = &cobra.Command{
 			myTeams = teams
 		}
 
-		PrintJSON(myTeams)
+		PrintResponseFormat(myTeams)
 	},
 }
 
@@ -81,7 +81,7 @@ var teamsCreateCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		PrintJSON(newTeam)
+		PrintResponseFormat(newTeam)
 	},
 }
 
@@ -101,7 +101,7 @@ Specify the team ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(team)
+		PrintResponseFormat(team)
 
 	},
 }
@@ -127,7 +127,7 @@ Specify the team ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(updatedTeam)
+		PrintResponseFormat(updatedTeam)
 
 	},
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var cfgFile, format string
 var verbose bool
 
 // SparkClient is Cisco Spark Client
@@ -60,6 +60,7 @@ func init() {
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.go-spark.yaml)")
 	RootCmd.PersistentFlags().IntVarP(&Max, "max", "m", 10, "limit the maximum number of items in the response.")
 	RootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
+	RootCmd.PersistentFlags().StringVarP(&format, "format", "f", "json", "format of the output")
 }
 
 // initConfig reads in config file and ENV variables if set.

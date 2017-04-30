@@ -54,7 +54,7 @@ Use either -p/--person-id or -e/--person-email to filter the results.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(memberships)
+		PrintResponseFormat(memberships)
 
 	},
 }
@@ -97,7 +97,7 @@ Use -M/--moderator to define the person as moderator`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(membership)
+		PrintResponseFormat(membership)
 
 	},
 }
@@ -125,7 +125,7 @@ Use -e/--person-email to filter by person email.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(membership)
+		PrintResponseFormat(membership)
 
 	},
 }
@@ -152,7 +152,7 @@ Specify the membership ID with the -i/--id flag.`,
 			log.Fatal(err)
 		}
 
-		PrintJSON(membership)
+		PrintResponseFormat(membership)
 
 	},
 }
