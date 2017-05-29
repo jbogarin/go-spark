@@ -108,13 +108,7 @@ var membershipsGetCmd = &cobra.Command{
 	Short: "Get details for a membership by ID.",
 	Long: `Get details for a membership by ID.
 
-Specify the membership ID with the -i/--id flag.
-
-Use -r/-room to list memberships for a room, by ID.
-
-Use -p/--person-id to filter by  person id.
-
-Use -e/--person-email to filter by person email.`,
+Specify the membership ID with the -i/--id flag.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		membership, response, err := SparkClient.Memberships.GetMembership(membershipID)
@@ -196,9 +190,6 @@ func init() {
 	membershipsCreateCmd.Flags().BoolVarP(&membershipModerator, "moderator", "M", false, "Set to true to make the person a room moderator")
 
 	membershipsGetCmd.Flags().StringVarP(&membershipID, "id", "i", "", "The membership ID.")
-	membershipsGetCmd.Flags().StringVarP(&membershipRoomID, "room", "r", "", "The room ID.")
-	membershipsGetCmd.Flags().StringVarP(&membershipPersonID, "person-id", "p", "", "The person ID.")
-	membershipsGetCmd.Flags().StringVarP(&membershipPersonEmail, "person-email", "e", "", "The email address of the person.")
 
 	membershipsUpdateCmd.Flags().StringVarP(&membershipID, "id", "i", "", "The membership ID.")
 	membershipsUpdateCmd.Flags().BoolVarP(&membershipModerator, "moderator", "M", false, "Set to true to make the person a room moderator")
