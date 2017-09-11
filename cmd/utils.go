@@ -6,8 +6,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 
 	"github.com/gocarina/gocsv"
+	prettyjson "github.com/hokaccha/go-prettyjson"
 )
 
 // PrintRequestWithoutBody prints the request without the Body, mainly for GET requests
@@ -39,12 +41,20 @@ func PrintRequestWithBody(request *http.Request, body interface{}) {
 
 // PrintJSON prints the response to stdout
 func PrintJSON(response interface{}) {
-	responseJSON, err := json.MarshalIndent(response, "", "  ")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(string(responseJSON))
+	if runtime.GOOS == "windows" {
+		responseJSON, err := json.MarshalIndent(response, "", " ")
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(responseJSON))
+	} else {
+		responseJSON, err := prettyjson.Marshal(response)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(responseJSON))
 
+	}
 }
 
 // PrintCSV prints the response in CSV to stdout
